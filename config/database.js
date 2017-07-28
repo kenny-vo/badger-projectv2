@@ -1,6 +1,6 @@
 // database
 
 module.exports = {
-  database: 'mongodb://localhost: 27017/badger-projectv2',
+  database: 'mongodb://kennytest:test@ds127443.mlab.com:27443/identifly',
   secret: 'identifly'
 }
