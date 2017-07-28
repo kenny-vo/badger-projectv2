@@ -2,7 +2,7 @@
   "name": "badger-projectv2",
   "version": "1.0.0",
   "description": "identifly app with MEAN stack auth",
-  "main": "app.js",
+  "main": "server.js",
   "dependencies": {
     "express": "*",
     "mongoose": "*",
