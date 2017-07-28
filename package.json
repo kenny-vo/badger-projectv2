@@ -1,0 +1,31 @@
+{
+  "name": "badger-projectv2",
+  "version": "1.0.0",
+  "description": "identifly app with MEAN stack auth",
+  "main": "app.js",
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "bcryptjs": "*",
+    "cors": "*",
+    "jsonwebtoken": "*",
+    "body-parser": "*",
+    "passport": "*",
+    "passport-jwt": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenny-vo/badger-projectv2.git"
+  },
+  "author": "Kenny Vo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kenny-vo/badger-projectv2/issues"
+  },
+  "homepage": "https://github.com/kenny-vo/badger-projectv2#readme"
+}
