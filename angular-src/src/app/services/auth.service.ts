@@ -11,6 +11,7 @@ export class AuthService {
 
   constructor(private http:Http) { }
 
+  // register
   registerUser(user){
     let headers = new Headers();
     headers.append('Content-Type','application/json');

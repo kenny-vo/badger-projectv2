@@ -713,6 +713,7 @@ var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
     }
+    // register
     AuthService.prototype.registerUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
