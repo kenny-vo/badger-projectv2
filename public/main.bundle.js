@@ -20,7 +20,7 @@ var ValidateService = (function () {
     function ValidateService() {
     }
     ValidateService.prototype.validateRegister = function (user) {
-        if (user.firstName == undefined || user.lastName == undefined || user.email == undefined || user.username == undefined || user.password == undefined) {
+        if (user.name == undefined || user.email == undefined || user.username == undefined || user.password == undefined) {
             return false;
         }
         else {
@@ -475,10 +475,9 @@ var RegisterComponent = (function () {
     RegisterComponent.prototype.onRegisterSubmit = function () {
         var _this = this;
         var user = {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            username: this.username,
+            name: this.name,
             email: this.email,
+            username: this.username,
             password: this.password
         };
         // Required Fields
@@ -624,7 +623,7 @@ module.exports = ""
 /***/ 680:
 /***/ (function(module, exports) {
 
-module.exports = "body {\n    background-color: #eee;\n}\n\n*[role=\"form\"] {\n    max-width: 530px;\n    padding: 15px;\n    margin: 0 auto;\n    background-color: #fff;\n    border-radius: 0.3em;\n}\n\n*[role=\"form\"] h2 {\n    margin-left: 5em;\n    margin-bottom: 1em;\n}\n"
+module.exports = ""
 
 /***/ }),
 
@@ -673,7 +672,7 @@ module.exports = "<div *ngIf=\"user\">\n  <h2 class=\"page-header\">{{user.first
 /***/ 687:
 /***/ (function(module, exports) {
 
-module.exports = "<form (submit)=\"onRegisterSubmt()\" class=\"form-horizontal\" role=\"form\">\n    <h2>Registration Form</h2>\n    <div class=\"form-group\">\n        <label for=\"firstName\" class=\"col-sm-3 control-label\">First Name</label>\n        <div class=\"col-sm-9\">\n            <input type=\"text\" [(ngModel)]=\"firstName\" name=\"firstName\" placeholder=\"First Name\" class=\"form-control\" autofocus>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"lastName\" class=\"col-sm-3 control-label\">Last Name</label>\n        <div class=\"col-sm-9\">\n            <input type=\"text\" [(ngModel)]=\"lastName\" name=\"lastName\"placeholder=\"Last Name\" class=\"form-control\" autofocus>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"userName\" class=\"col-sm-3 control-label\">Username</label>\n        <div class=\"col-sm-9\">\n            <input type=\"text\" [(ngModel)]=\"userName\" name=\"userName\" placeholder=\"Username\" class=\"form-control\" autofocus>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"email\" class=\"col-sm-3 control-label\">Email</label>\n        <div class=\"col-sm-9\">\n            <input type=\"email\" [(ngModel)]=\"email\" name=\"email\" placeholder=\"Email\" class=\"form-control\">\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"password\" class=\"col-sm-3 control-label\">Password</label>\n        <div class=\"col-sm-9\">\n            <input type=\"password\" [(ngModel)]=\"password\" name=\"password\" placeholder=\"Password\" class=\"form-control\">\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <div class=\"col-sm-9 col-sm-offset-3\">\n            <button type=\"submit\" class=\"btn btn-primary btn-block\">Register</button>\n        </div>\n    </div>\n</form> <!-- /form -->\n"
+module.exports = "<h2 class=\"page-header\">Register</h2>\n<form (submit)=\"onRegisterSubmit()\">\n  <div class=\"form-group\">\n    <label>Name</label>\n    <input type=\"text\" [(ngModel)]=\"name\" name=\"name\" class=\"form-control\">\n  </div>\n  <div class=\"form-group\">\n    <label>Username</label>\n    <input type=\"text\" [(ngModel)]=\"username\" name=\"username\" class=\"form-control\">\n  </div>\n  <div class=\"form-group\">\n    <label>Email</label>\n    <input type=\"text\" [(ngModel)]=\"email\" name=\"email\" class=\"form-control\" >\n  </div>\n  <div class=\"form-group\">\n    <label>Password</label>\n    <input type=\"password\" [(ngModel)]=\"password\" name=\"password\" class=\"form-control\">\n  </div>\n  <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\">\n</form>\n"
 
 /***/ }),
 
@@ -712,18 +711,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
+        this.isDev = false; // Change to false before deployment
     }
-    // register
     AuthService.prototype.registerUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        return this.http.post('users/register', user, { headers: headers })
+        var ep = this.prepEndpoint('users/register');
+        return this.http.post(ep, user, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.authenticateUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        return this.http.post('users/authenticate', user, { headers: headers })
+        var ep = this.prepEndpoint('users/authenticate');
+        return this.http.post(ep, user, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getProfile = function () {
@@ -731,7 +732,8 @@ var AuthService = (function () {
         this.loadToken();
         headers.append('Authorization', this.authToken);
         headers.append('Content-Type', 'application/json');
-        return this.http.get('users/profile', { headers: headers })
+        var ep = this.prepEndpoint('users/profile');
+        return this.http.get(ep, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.storeUserData = function (token, user) {
@@ -751,6 +753,14 @@ var AuthService = (function () {
         this.authToken = null;
         this.user = null;
         localStorage.clear();
+    };
+    AuthService.prototype.prepEndpoint = function (ep) {
+        if (this.isDev) {
+            return ep;
+        }
+        else {
+            return 'http://localhost:8080/' + ep;
+        }
     };
     AuthService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(), 

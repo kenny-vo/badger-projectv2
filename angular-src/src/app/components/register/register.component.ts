@@ -10,16 +10,15 @@ import {Router} from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  firstName: String;
-  lastName: String;
+  name: String;
   username: String;
   email: String;
   password: String;
 
   constructor(
     private validateService: ValidateService,
-    private flashMessage: FlashMessagesService,
-    private authService: AuthService,
+    private flashMessage:FlashMessagesService,
+    private authService:AuthService,
     private router: Router
   ) { }
 
@@ -28,10 +27,9 @@ export class RegisterComponent implements OnInit {
 
   onRegisterSubmit(){
     const user = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      username: this.username,
+      name: this.name,
       email: this.email,
+      username: this.username,
       password: this.password
     }
 
